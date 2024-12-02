@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Electronics</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">ElectroShop</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Products</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Shopping Cart</h1>
+    <h2 class="text-center mb-4">Featured Electronics</h2>
+
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row" id="product-list"></div>
+        </div>
+        
+        <div class="col-md-3">
+            <h2>Cart Summary</h2>
+            <ul class="list-group" id="cart-items"></ul>
+            <h4 class="mt-3">Total: <span id="total">₹0.00</span></h4>
+            <button class="btn btn-success mt-3">Checkout</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    const products = [
+        { id: 1, name: "Laptop", price: 74999, img: "https://cdn.thewirecutter.com/wp-content/media/2024/07/editing-laptop-2048px-233661.jpg?auto=webp&quality=75&width=1024" },
+        { id: 2, name: "Smartphone", price: 49999, img: "https://kddi-h.assetsadobe3.com/is/image/content/dam/au-com/common/graph/app/pixel8a_set.jpg?scl=1" },
+        { id: 3, name: "Tablet", price: 29999, img: "https://cdn.thewirecutter.com/wp-content/media/2024/06/besttablets-2048px-9875.jpg" },
+        { id: 4, name: "Headphones", price: 6999, img: "https://images.philips.com/is/image/philipsconsumer/60a04af525fe4e7589acb0c90075d2d7?$pnglarge$&wid=1250" },
+        { id: 5, name: "Smartwatch", price: 8999, img: "https://gourban.in/cdn/shop/files/WAve.png?v=1705564263&width=2048" },
+        { id: 6, name: "Camera", price: 54999, img: "https://images.herzindagi.info/image/2024/Jul/Camera-For-Photography-2.jpg" },
+        { id: 7, name: "Bluetooth Speaker", price: 2999, img: "https://m.media-amazon.com/images/I/41n8sieHmNL._SX300_SY300_QL70_FMwebp_.jpg" },
+        { id: 8, name: "Monitor", price: 19999, img: "https://media.takealot.com/covers_images/0603d1d13051459489fa3d2d20c2a83f/s-fb.file" },
+        { id: 9, name: "Gaming Console", price: 39999, img: "https://media-ik.croma.com/prod/https://media.croma.com/image/upload/v1712137916/Croma%20Assets/Gaming/Gaming%20Consoles/Images/305987_tlfvzh.png?tr=w-600" }
+    ];
+
+    const productList = document.getElementById('product-list');
+    products.forEach(({ id, name, price, img }) => {
+        productList.insertAdjacentHTML('beforeend', `
+            <div class="col-md-4 mb-4">
+                <div class="card" style="height: 400px;">
+                    <img src="${img}" class="card-img-top" alt="${name}" style="height: 200px; object-fit: contain;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">${name}</h5>
+                        <p class="card-text">₹${price}</p>
+                        <button class="btn btn-primary mt-auto" onclick="addToCart('${name}', ${price})">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        `);
+    });
+
+    let cart = [];
+    function addToCart(name, price) {
+        cart.push({ name, price });
+        updateCart();
+    }
+
+    function updateCart() {
+        const cartItems = document.getElementById('cart-items');
+        cartItems.innerHTML = cart.map(item => `<li class="list-group-item d-flex justify-content-between">${item.name}<span>₹${item.price}</span></li>`).join('');
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        document.getElementById('total').innerText = `₹${total}`;
+    }
+</script>
+
+</body>
+</html>
